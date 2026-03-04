@@ -1,18 +1,25 @@
-name: Docker Image CI
+name: Docker Image Downloader
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_dispatch: # 수동 실행 버튼 활성화
 
 jobs:
-
-  build:
-
+  download:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v4
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      - name: Docker Image Pull
+        run: |
+          # 빌드(build) 하지 않고 이미지를 바로 가져옵니다
+          docker pull prom/prometheus:latest
+          
+      - name: Docker Image Save
+        run: |
+          # 가져온 이미지를 tar 파일로 압축합니다
+          docker save prom/prometheus:latest -o prometheus.tar
+          
+      - name: Upload to GitHub Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: prometheus-tar-file
+          path: prometheus.tar
+          retention-days: 1
