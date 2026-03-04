@@ -12,7 +12,10 @@ jobs:
 
       - name: Download RPMs from RHEL UBI
         run: |
-          docker run --rm -v ${{ github.workspace }}/rhel_rpms:/downloads ://registry.access.redhat.com bash -c "dnf install -y 'dnf-command(download)' && dnf download --resolve --alldeps --destdir=/downloads cifs-utils"
+          docker run --rm \
+            -v ${{ github.workspace }}/rhel_rpms:/downloads \
+            ://registry.access.redhat.com \
+            bash -c "dnf install -y 'dnf-command(download)' && dnf download --resolve --alldeps --destdir=/downloads cifs-utils"
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
