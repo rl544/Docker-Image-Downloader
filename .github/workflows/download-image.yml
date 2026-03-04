@@ -1,0 +1,20 @@
+name: Docker Image Downloader
+
+on:
+  workflow_dispatch: # 버튼을 눌러 수동 실행
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull and Save Docker Image
+        run: |
+          docker pull prom/prometheus:latest
+          docker save prom/prometheus:latest -o prometheus.tar
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: prometheus-image
+          path: prometheus.tar
+          retention-days: 1 # 보관 기간 (최대 90일)
