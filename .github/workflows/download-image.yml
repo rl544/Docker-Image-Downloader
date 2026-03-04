@@ -1,25 +1,25 @@
-name: Docker Image Downloader
+name: Docker Image Downloader (Prom & Grafana)
 
 on:
-  workflow_dispatch: # 수동 실행 버튼 활성화
+  workflow_dispatch:
 
 jobs:
   download:
     runs-on: ubuntu-latest
     steps:
-      - name: Docker Image Pull
+      - name: Pull Images
         run: |
-          # 빌드(build) 하지 않고 이미지를 바로 가져옵니다
           docker pull prom/prometheus:latest
+          docker pull grafana/grafana:latest
           
-      - name: Docker Image Save
+      - name: Save Images to TAR
         run: |
-          # 가져온 이미지를 tar 파일로 압축합니다
-          docker save prom/prometheus:latest -o prometheus.tar
+          # 두 이미지를 하나의 tar 파일로 묶어서 저장합니다.
+          docker save prom/prometheus:latest grafana/grafana:latest -o monitoring_images.tar
           
-      - name: Upload to GitHub Artifacts
+      - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: prometheus-tar-file
-          path: prometheus.tar
+          name: monitoring-stack-images
+          path: monitoring_images.tar
           retention-days: 1
