@@ -1,29 +1,22 @@
-name: Download RHEL 10 CIFS RPMs
+name: Download RHEL CIFS RPMs
 
 on:
   workflow_dispatch:
 
 jobs:
-  extract-rhel-rpms:
-    # 실행 서버는 GitHub 제공 서버를 쓰되
-    runs-on: ubuntu-latest 
+  extract-rpms:
+    runs-on: ubuntu-latest
     steps:
-      - name: Create Local Directory
-        run: mkdir -p ./rhel10_rpms
+      - name: Create Directory
+        run: mkdir -p rhel_rpms
 
-      - name: Run RHEL Container and Download
+      - name: Download RPMs from RHEL UBI
         run: |
-          # RHEL 9/10 호환 이미지를 실행하여 RHEL용 패키지를 다운로드합니다.
-          docker run --rm \
-            -v ${{ github.workspace }}/rhel10_rpms:/mnt/rpms \
-            ://registry.access.redhat.com \
-            bash -c "
-              dnf install -y 'dnf-command(download)' && \
-              dnf download --resolve --alldeps --destdir=/mnt/rpms cifs-utils
-            "
+          docker run --rm -v ${{ github.workspace }}/rhel_rpms:/downloads ://registry.access.redhat.com bash -c "dnf install -y 'dnf-command(download)' && dnf download --resolve --alldeps --destdir=/downloads cifs-utils"
 
-      - name: Upload RHEL RPMs
+      - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: rhel10-cifs-package-bundle
-          path: rhel10_rpms/
+          name: rhel-cifs-package-bundle
+          path: rhel_rpms/
+          retention-days: 1
