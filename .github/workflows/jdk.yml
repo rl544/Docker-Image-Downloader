@@ -23,12 +23,12 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: temurin-images
-          path: temurin_images.tar
+          path: temurin_images8.tar
           retention-days: 1
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: temurin-jre-image
-          path: temurin_images_jre.tar
+          path: temurin_images8_jre.tar
           retention-days: 1
