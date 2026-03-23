@@ -9,11 +9,11 @@ jobs:
     steps:
       - name: Pull Images
         run: |
-          docker pull postgres:18-alphine
+          docker pull postgres:18-alpine
           
       - name: Save Images to TAR
         run: |
-          docker save postgres:18-alphine postgres18.tar
+          docker save postgres:18-alpine postgres18.tar
           
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
