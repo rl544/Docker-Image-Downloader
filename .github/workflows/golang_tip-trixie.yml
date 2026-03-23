@@ -1,0 +1,23 @@
+name: golang_tip-trixie
+
+on:
+  workflow_dispatch:
+
+jobs:
+  download:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull Images
+        run: |
+          docker pull golang:tip-trixie
+          
+      - name: Save Images to TAR
+        run: |
+          docker save golang:tip-trixie -o tip-trixie.tar
+          
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tip-trixie
+          path: tip-trixie.tar
+          retention-days: 1
