@@ -1,4 +1,4 @@
-name: Docker Image Downloader (Eclipse Temurin)
+name: Docker Image Downloader (distroless_jdk)
 
 on:
   workflow_dispatch:
