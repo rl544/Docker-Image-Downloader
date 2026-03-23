@@ -7,17 +7,13 @@ jobs:
   download:
     runs-on: ubuntu-latest
     steps:
-      - name: Login
-        run: |
-          docker login dhi.io
-          
       - name: Pull Images
         run: |
-          docker pull dhi.io/postgres:18-alpine3.22-dev
+          docker pull dhi.io/postgres:18-alpine3.22
           
       - name: Save Images to TAR
         run: |
-          docker save dhi.io/postgres:18-alpine3.22-dev postgres18.tar
+          docker save dhi.io/postgres:18-alpine3.22 postgres18.tar
           
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
