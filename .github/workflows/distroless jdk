@@ -1,0 +1,26 @@
+name: Docker Image Downloader (Eclipse Temurin)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  download:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull Images
+        run: |
+          # Eclipse Temurin 공식 이미지 풀 (JDK와 JRE)
+          docker pull gcr.io/distroless/java:8
+          docker pull gcr.io/distroless/java25-debian13
+          
+      - name: Save Images to TAR
+        run: |
+          # 두 이미지를 하나의 tar 파일로 묶어서 저장
+          docker save gcr.io/distroless/java:8 gcr.io/distroless/java25-debian13 -o distroless_jdk.tar
+          
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: distroless_jdk
+          path: distroless_jdk.tar
+          retention-days: 1
