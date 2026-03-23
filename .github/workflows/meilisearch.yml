@@ -13,7 +13,7 @@ jobs:
           
       - name: Save Images to TAR
         run: |
-          docker save getmeili/meilisearch meilisearch.tar
+          docker save getmeili/meilisearch -o meilisearch.tar
           
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
