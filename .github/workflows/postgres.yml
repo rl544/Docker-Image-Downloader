@@ -1,5 +1,3 @@
-dhi.io/postgres:18-alpine3.22-dev
-
 name: Docker Image Downloader (postgres:18)
 
 on:
