@@ -1,0 +1,23 @@
+name: getmeili/meilisearch
+
+on:
+  workflow_dispatch:
+
+jobs:
+  download:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull Images
+        run: |
+          docker pull getmeili/meilisearch
+          
+      - name: Save Images to TAR
+        run: |
+          docker save getmeili/meilisearch meilisearch.tar
+          
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: meilisearch.tar
+          path: meilisearch.tar
+          retention-days: 1
